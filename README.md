@@ -8,6 +8,14 @@ makes it all queryable.
 100% free / open-source. Runs locally with **zero setup** against a built-in
 mock provider, or against Groq / OpenRouter free tiers / local Ollama.
 
+## Live demo
+
+**▶ [Open the dashboard](https://ai-observability-dashboard.streamlit.app)**
+
+The hosted dashboard self-seeds synthetic telemetry, so it loads straight into
+the cost / latency / error views and the v1-vs-v2 prompt comparison — no setup,
+no API key. See [DEPLOY.md](DEPLOY.md) for how it's deployed.
+
 ## Why I built this
 
 Every LLM feature I worked on had the same blind spot: it would pass review and

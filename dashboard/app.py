@@ -14,12 +14,21 @@ from __future__ import annotations
 import json
 import os
 import sqlite3
+import sys
 
 import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-DB_PATH = os.environ.get("DB_PATH", "data/observability.db")
+# Make the `app` package importable when this file is run directly (e.g. on
+# Streamlit Community Cloud, where the entrypoint is dashboard/app.py).
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from app import db as appdb  # noqa: E402
+from app.config import get_settings  # noqa: E402
+from app.seed import seed_demo  # noqa: E402
+
+DB_PATH = get_settings().db_path
 
 st.set_page_config(page_title="LLM Observability", layout="wide")
 
@@ -44,17 +53,32 @@ def pctl(s: pd.Series, q: float) -> float:
     return float(s.quantile(q)) if len(s) else 0.0
 
 
+def _seed(clear: bool = False) -> None:
+    with st.spinner("Generating demo telemetry..."):
+        seed_demo(n_per_version=150, clear=clear)
+    load_traces.clear()
+
+
 st.title("🔭 LLM Observability Dashboard")
-st.caption(f"Trace store: `{DB_PATH}`")
+
+# On a fresh deploy the store is empty — seed it so the page is never blank.
+appdb.init_db()
+if appdb.count_traces() == 0:
+    _seed(clear=False)
 
 df = load_traces(DB_PATH)
 
-if df.empty:
-    st.info(
-        "No traces yet. Start the API and generate some load:\n\n"
-        "```\nuvicorn app.main:app --reload\n"
-        "python scripts/load_gen.py --n 200\n```"
+with st.sidebar:
+    if st.button("🔄 Regenerate demo data", use_container_width=True):
+        _seed(clear=True)
+        st.rerun()
+    st.caption(
+        "Demo data is synthetic (no live LLM calls). It mirrors a real workload "
+        "comparing an unconstrained prompt (v1) against a constrained one (v2)."
     )
+
+if df.empty:
+    st.info("No traces yet — click **Regenerate demo data** in the sidebar.")
     st.stop()
 
 # ---- Filters ---------------------------------------------------------------

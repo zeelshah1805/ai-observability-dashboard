@@ -136,6 +136,18 @@ def get_trace(trace_id: str) -> Optional[Trace]:
     return _row_to_trace(row) if row else None
 
 
+def count_traces() -> int:
+    with get_conn() as conn:
+        row = conn.execute("SELECT COUNT(*) AS n FROM traces").fetchone()
+    return int(row["n"]) if row else 0
+
+
+def clear_traces() -> None:
+    with _lock, get_conn() as conn:
+        conn.execute("DELETE FROM traces")
+        conn.commit()
+
+
 def list_traces(
     limit: int = 100,
     model: Optional[str] = None,
