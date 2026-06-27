@@ -94,7 +94,7 @@ curl -X POST localhost:8000/chat -H 'content-type: application/json' -d '{
 }'
 ```
 
-## Prompt-regression demo (the interview centerpiece)
+## Prompt-regression demo
 
 Every prompt template is registered with a content-hash version. The registry
 seeds two `summarize` prompts: **v1** (terse, unconstrained) and **v2**
@@ -121,8 +121,7 @@ prompt yields shorter, faster, lower-variance output. Against a real provider
 the same machinery measures real telemetry.)
 
 The same data is visible live in the dashboard's **Prompt version comparison**
-table. The story: *"I proved a prompt improvement with real telemetry instead
-of vibes."*
+table — the v1/v2 difference is backed by real telemetry, not guesswork.
 
 ## Docker
 
@@ -146,11 +145,12 @@ tracking, trace inspection, Prometheus metrics.
 multi-tenant auth, real alerting integrations, OpenTelemetry export to
 Grafana/Tempo, async write buffering + sampling.
 
-## Build status
+## Features
 
-- [x] Phase 0 — repo skeleton, FastAPI `/health`, SQLite init, price table
-- [x] Phase 1 — instrumented `LLMClient`, `/chat` → complete trace
-- [x] Phase 2 — prompt registry + versioning
-- [x] Phase 3 — Streamlit dashboard (cost/latency/error + drill-down)
-- [x] Phase 4 — retries/backoff, timeout + bad-output status (foundation)
-- [x] Phase 5 — `/metrics`, Dockerfile + docker-compose
+- Instrumented `LLMClient` — every `/chat` call produces a complete trace
+- Token cost attribution from a per-model price table
+- Latency percentiles (p50/p95/p99) and time-to-first-token
+- Prompt registry with content-hash versioning + v1/v2 comparison
+- Reliability: retries with backoff, timeout handling, bad-output detection
+- Streamlit dashboard (cost/latency/error views + trace drill-down)
+- Prometheus `/metrics` endpoint, Dockerfile + docker-compose

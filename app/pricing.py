@@ -2,8 +2,8 @@
 
 Prices are USD per 1,000,000 tokens (in, out). Free-tier providers cost $0 in
 reality, but we keep representative list prices so the dashboard can show a
-*simulated* cost — that's the point of the observability story (PLAN §7): cost
-is attributed from token usage × a per-model rate, not actually incurred.
+*simulated* cost: it's attributed from token usage × a per-model rate, not
+actually incurred during testing.
 """
 
 from __future__ import annotations

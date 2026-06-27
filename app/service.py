@@ -1,6 +1,6 @@
 """Chat service: glue between the API layer and the instrumented LLM call.
 
-Holds the retry/backoff policy (PLAN Phase 4 lite) and resolves prompts from
+Holds the retry/backoff policy and resolves prompts from
 the registry so every request is tagged with a version.
 """
 

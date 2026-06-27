@@ -1,15 +1,13 @@
-"""Prompt-regression demo (PLAN §6) — the interview centerpiece.
+"""Prompt-regression demo.
 
 Runs the *same* summarization workload under prompt v1 (unconstrained baseline)
 and v2 (constrained, improved), then prints a side-by-side table built from real
-trace data: avg cost, p95 latency, bad-output rate.
+trace data: avg cost, p95 latency, bad-output rate. It's a quick way to compare
+two prompt versions on actual telemetry rather than guessing.
 
 One command, no separate server needed (uses an in-process client):
 
     python scripts/regression_demo.py --n 120
-
-The story it tells: "I proved a prompt improvement with real telemetry instead
-of vibes — v2 cut cost, latency, and bad-output rate."
 """
 
 from __future__ import annotations

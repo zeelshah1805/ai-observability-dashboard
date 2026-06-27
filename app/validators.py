@@ -1,4 +1,4 @@
-"""Output validators (PLAN Phase 4 — bad-output detection).
+"""Output validators (bad-output detection).
 
 An LLM call can return HTTP 200 and still be *wrong* for the use case. A
 validator inspects the output and returns a reason string if it violates the

@@ -1,4 +1,4 @@
-"""Prompt versioning (PLAN §2 / Phase 2).
+"""Prompt versioning.
 
 Every prompt template is registered under a name and assigned a deterministic
 version hash derived from its text. Requests rendered through the registry are
@@ -69,7 +69,7 @@ class PromptRegistry:
 
 
 # Module-level singleton registry with a couple of seeded prompts so the
-# service and the v1/v2 regression demo (PLAN §6) work out of the box.
+# service and the v1/v2 regression demo work out of the box.
 registry = PromptRegistry()
 
 registry.register(

@@ -1,6 +1,6 @@
 """SQLite-backed trace store.
 
-A single `traces` table is the backbone (see PLAN §4). Postgres is a drop-in
+A single `traces` table is the backbone. Postgres is a drop-in
 later swap; the access layer here is intentionally thin and SQL-portable.
 """
 

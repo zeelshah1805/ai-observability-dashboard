@@ -1,9 +1,9 @@
-"""The cross-cutting instrumentation layer (PLAN §3).
+"""The cross-cutting instrumentation layer.
 
 `trace_call(...)` is a context manager that captures latency, usage, cost,
 status, and errors for an LLM call and — on exit — persists a Trace row and
 updates Prometheus. Application code stays clean; observability is one `with`
-block. This is the ~30-line design centerpiece (PLAN §8, artifact 3).
+block, and everything else stays unaware of it.
 
     with trace_call(endpoint="/chat", model=m, provider=p,
                     prompt_version=v, input_text=prompt) as tr:
@@ -49,7 +49,7 @@ class _Span:
             t.output = result.text
 
     def mark_bad_output(self, reason: str) -> None:
-        """Flag a structurally-valid-but-wrong response (PLAN Phase 4)."""
+        """Flag a structurally-valid-but-wrong response."""
         self._bad_output = reason
 
 

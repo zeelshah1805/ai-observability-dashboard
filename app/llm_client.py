@@ -1,5 +1,5 @@
 """LLMClient — a thin, provider-agnostic wrapper around an OpenAI-compatible
-chat/completions API (PLAN Phase 1).
+chat/completions API.
 
 Supported providers: groq, openrouter, ollama (all OpenAI-compatible) and a
 built-in `mock` provider that synthesizes plausible responses with no network
@@ -7,7 +7,7 @@ or API key, so the whole stack runs and demos with zero setup.
 
 The client is deliberately dumb about observability — it just returns a
 `CompletionResult` (or raises a typed error). The `@traced` layer is what turns
-that into a Trace. That separation is the design talking point (PLAN §3).
+that into a Trace. Keeping the two separate is the whole design idea.
 """
 
 from __future__ import annotations
@@ -63,7 +63,7 @@ def _estimate_tokens(text: str) -> int:
     """Fallback token estimate when the provider returns no usage.
 
     Uses tiktoken if available; otherwise a ~4-chars-per-token heuristic.
-    Estimates are labeled as such by callers (PLAN §7).
+    Estimates are labeled as such by callers.
     """
     try:
         return len(_encoder().encode(text))
@@ -103,7 +103,7 @@ class LLMClient:
         following*: when the prompt asks for "exactly N sentences" it complies
         most of the time, producing shorter, faster, cheaper output. An
         unconstrained prompt rambles to a random length. That difference is what
-        powers the v1-vs-v2 prompt-regression demo (PLAN §6).
+        powers the v1-vs-v2 prompt-regression demo.
         """
         rng = random.Random()
         prompt_text = "\n".join(m.get("content", "") for m in messages)

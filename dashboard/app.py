@@ -1,9 +1,9 @@
-"""Streamlit observability dashboard (PLAN Phase 3).
+"""Streamlit observability dashboard.
 
 Reads the same SQLite trace store the API writes to and renders:
   - KPI tiles (requests, cost, error rate, p95 latency)
   - cost over time, latency percentiles, error breakdown
-  - prompt v1-vs-v2 comparison (PLAN §6)
+  - prompt v1-vs-v2 comparison
   - trace drill-down
 
 Run: streamlit run dashboard/app.py
@@ -126,7 +126,7 @@ sc.columns = ["status", "count"]
 fig_status = px.bar(sc, x="status", y="count", title="Requests by status", color="status")
 st.plotly_chart(fig_status, use_container_width=True)
 
-# ---- Prompt v1 vs v2 comparison (PLAN §6) ----------------------------------
+# ---- Prompt v1 vs v2 comparison --------------------------------------------
 st.subheader("Prompt version comparison")
 if f["prompt_version"].nunique() >= 1:
     rows = []

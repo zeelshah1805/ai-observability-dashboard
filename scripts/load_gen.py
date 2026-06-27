@@ -1,7 +1,7 @@
-"""Load generator (PLAN §7).
+"""Load generator.
 
 Replays a set of prompts against the running service with jitter so the
-dashboard has realistic data. Also powers the v1-vs-v2 regression demo (§6):
+dashboard has realistic data. Also powers the v1-vs-v2 regression demo:
 run the same workload under two prompt versions and compare the telemetry.
 
 Usage:

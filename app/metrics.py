@@ -1,4 +1,4 @@
-"""Prometheus instruments (PLAN §5 Phase 5, wired early so traces feed them).
+"""Prometheus instruments (wired early so traces feed them).
 
 Exposed at /metrics. A single update_from_trace() call keeps the Prometheus
 view and the SQLite trace store in lockstep.

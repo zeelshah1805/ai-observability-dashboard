@@ -1,4 +1,4 @@
-"""FastAPI application wiring (PLAN Phase 0/1/5).
+"""FastAPI application wiring.
 
 Endpoints:
   GET  /health            liveness + provider/model info
