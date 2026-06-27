@@ -15,6 +15,9 @@ env/
 *.sqlite3
 data/*.db
 
+# Local planning notes (not part of the published project)
+PLAN.md
+
 # OS / IDE
 .DS_Store
 .idea/

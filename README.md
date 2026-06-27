@@ -5,12 +5,21 @@ service wraps every model call and records token cost, latency, error rates,
 prompt-version performance, and full per-request traces; a Streamlit dashboard
 makes it all queryable.
 
-> The point isn't building *an* LLM app — it's showing you can **operate** one:
-> catch silent cost blowups, latency spikes, and prompt regressions with real
-> telemetry instead of vibes.
-
 100% free / open-source. Runs locally with **zero setup** against a built-in
 mock provider, or against Groq / OpenRouter free tiers / local Ollama.
+
+## Why I built this
+
+Every LLM feature I worked on had the same blind spot: it would pass review and
+then quietly drift — costs creeping up, latency spiking under load, a "small"
+prompt tweak silently raising the rate of malformed answers. Ordinary APM
+watches status codes and CPU; none of it sees token cost or whether the *output*
+was actually any good.
+
+So I built the control plane I wanted: instrument every model call, write a full
+trace (cost, latency, tokens, prompt version, status), and make the trends
+queryable in one place. The payoff is the prompt-regression workflow below — I
+can compare two prompt versions on real telemetry instead of guessing.
 
 ---
 
