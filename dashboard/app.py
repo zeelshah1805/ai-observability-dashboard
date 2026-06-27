@@ -75,19 +75,22 @@ f = df[
 ]
 
 # ---- KPI tiles -------------------------------------------------------------
-ok = f[f["status"] == "ok"]
 # Latency is independent of output validity: include every completed
 # generation (ok + bad_output), exclude only hard errors (partial latency).
 completed = f[f["status"].isin(["ok", "bad_output"])]
 total = len(f)
-err_rate = (1 - len(ok) / total) * 100 if total else 0.0
+# True errors (timeout/rate_limit/error) are distinct from bad_output, which is
+# a quality failure — keep them separate so neither tile misleads.
+err_rate = (~f["status"].isin(["ok", "bad_output"])).mean() * 100 if total else 0.0
+bad_rate = (f["status"] == "bad_output").mean() * 100 if total else 0.0
 
-c1, c2, c3, c4, c5 = st.columns(5)
+c1, c2, c3, c4, c5, c6 = st.columns(6)
 c1.metric("Requests", f"{total:,}")
 c2.metric("Total cost", f"${f['cost_usd'].sum():.4f}")
 c3.metric("Error rate", f"{err_rate:.1f}%")
-c4.metric("p95 latency", f"{pctl(completed['latency_ms'], 0.95):.0f} ms")
-c5.metric("Total tokens", f"{int(f['total_tokens'].sum()):,}")
+c4.metric("Bad-output rate", f"{bad_rate:.1f}%")
+c5.metric("p95 latency", f"{pctl(completed['latency_ms'], 0.95):.0f} ms")
+c6.metric("Total tokens", f"{int(f['total_tokens'].sum()):,}")
 
 st.divider()
 
